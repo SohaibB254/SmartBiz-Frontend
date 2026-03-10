@@ -3,10 +3,14 @@ import { Edit } from 'lucide-react';
 import SellerSidebar from '../components/SellerSideBar';
 import { useBusiness } from '../../../../context/BusinessContext';
 import Toast from '../../../../components/common/Toast';
+import { useListing } from '../../../../context/ListingsContext';
+import SellerTopNav from '../components/SellerTopNav';
 
 const API_HOST = 'http://localhost:3000'
 
 const BusinessProfile = () => {
+
+  const { listings } = useListing()
   const { businessProfile, updateProfile, toggleStatus } = useBusiness();
   const fileInputRef = useRef(null);
 
@@ -71,9 +75,8 @@ const imageUrl = `${API_HOST}/${businessProfile?.image}`
 
   return (
     <div className="min-h-screen flex flex-col bg-white font-sans">
-      <header className="border-b border-gray-200 bg-white px-6 py-4 flex justify-between items-center sticky top-0 z-40">
-        <div className="text-2xl font-bold text-[#e29525]">SmartBiz</div>
-      </header>
+     {/* Top Nav */}
+    <SellerTopNav/>
 
       {toastConfig.isVisible && (
         <Toast success={toastConfig.success} message={toastConfig.message} onClose={() => setToastConfig({...toastConfig, isVisible: false})} />
@@ -106,6 +109,7 @@ const imageUrl = `${API_HOST}/${businessProfile?.image}`
                   </button>
                   <input
                     type="file"
+                    name='image'
                     ref={fileInputRef}
                     onChange={(e) => {
                       const file = e.target.files[0];
@@ -131,7 +135,7 @@ const imageUrl = `${API_HOST}/${businessProfile?.image}`
                   <p>Business Type : <span className="font-normal text-gray-600">{businessProfile.businessType}</span></p>
 
                   <p>Owner Name : <span className="font-normal text-gray-600">{businessProfile.ownerName}</span></p>
-                  <p>Total Listings : <span className="font-normal text-gray-600">{businessProfile.totalListings || 0}</span></p>
+                  <p>Total Listings : <span className="font-normal text-gray-600">{listings.length || 0}</span></p>
 
                   <p>Created On : <span className="font-normal text-gray-600">{businessProfile.createdAt ? businessProfile.createdAt.split('T')[0] : 'N/A'}</span></p>
                 </div>

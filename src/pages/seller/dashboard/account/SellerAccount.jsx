@@ -1,9 +1,10 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { Edit } from 'lucide-react';
+import { Briefcase, CreditCard, Edit } from 'lucide-react';
 import SellerSidebar from '../components/SellerSideBar';
 import { useUser } from '../../../../context/UserContext';
 import { useBusiness } from '../../../../context/BusinessContext';
+import SellerTopNav from '../components/SellerTopNav';
 
 const SellerAccount = () => {
   const { user } = useUser();
@@ -11,11 +12,10 @@ const SellerAccount = () => {
 
   return (
     <div className="min-h-screen bg-white font-sans flex flex-col">
-      <header className="fixed top-0 w-full z-40 h-18.25 border-b border-gray-200 bg-white px-6 py-4 flex justify-between items-center">
-        <div className="text-2xl font-bold text-[#e29525]">SmartBiz</div>
-      </header>
+    {/* Top Nav */}
+    <SellerTopNav />
 
-      <div className="flex pt-18.25 flex-1">
+      <div className="flex  flex-1">
         {/* Empty div to make align horizontal elements  */}
         <div className='w-64'></div>
         <SellerSidebar activeTab="account" />
@@ -25,8 +25,8 @@ const SellerAccount = () => {
           <div className="flex justify-between items-center mb-10 pb-6 border-b border-gray-100">
             <h1 className="text-3xl font-bold text-black">Account</h1>
             <div className="flex items-center space-x-6 text-sm font-medium">
-              <div className="text-gray-700">{businessProfile?.businessName || 'Business'}</div>
-              <div className="text-gray-700">Balance: $5672</div>
+              <div className="text-gray-700 flex gap-2 items-center"><Briefcase size={18}/> {businessProfile?.title || 'Business'}</div>
+              <div className="text-gray-700 flex gap-2 items-center"><CreditCard size={18}/>Balance: $5340</div>
             </div>
           </div>
 
@@ -51,7 +51,7 @@ const SellerAccount = () => {
                 </div>
                 <div>
                   <p className="font-bold text-black">Joined:</p>
-                  <p className="text-gray-500">{user.joinedDate}</p>
+                  <p className="text-gray-500">{user.createdAt ? user.createdAt.split('T')[0]: "N/A"}</p>
                 </div>
                 <div className="pt-2">
                   <button className="border border-gray-300 text-gray-700 hover:bg-gray-50 font-medium py-2 px-6 rounded-full transition duration-200">
@@ -72,7 +72,7 @@ const SellerAccount = () => {
               <div className="space-y-4 text-sm pl-2">
                 <div>
                   <p className="font-bold text-black">Business Name:</p>
-                  <p className="text-gray-500">{businessProfile?.businessName || 'N/A'}</p>
+                  <p className="text-gray-500">{businessProfile?.title || 'N/A'}</p>
                 </div>
                 <div>
                   <p className="font-bold text-black">Business Type:</p>

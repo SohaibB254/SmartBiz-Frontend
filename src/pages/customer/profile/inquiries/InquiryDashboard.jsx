@@ -3,6 +3,8 @@ import axios from 'axios';
 import { User, Ticket } from 'lucide-react';
 import Sidebar from '../../components/Sidebar';
 import { useUser } from '../../../../context/UserContext';
+import { Link } from 'react-router-dom';
+import TopNav from '../../components/TopNav';
 
 const API_HOST = 'http://localhost:3000';
 
@@ -198,9 +200,8 @@ const { user } = useUser()
   return (
     <div className="h-screen flex flex-col bg-white font-sans overflow-hidden">
       {/* Top Navbar Placeholder */}
-      <header className="border-b border-gray-200 bg-white px-6 py-4 flex justify-between items-center sticky top-0 z-40">
-        <div className="text-2xl font-bold text-[#e29525]">SmartBiz</div>
-      </header>
+     {/* Top Navbar Placeholder */}
+    <TopNav/>
 
       <div className="flex flex-1 overflow-hidden">
          {/* Empty div to make align horizontal elements  */}
@@ -279,7 +280,7 @@ const { user } = useUser()
                         isSelected ? 'bg-[#fdf3e7]' : 'hover:bg-gray-50'
                       }`}
                     >
-                      <div className="w-10 h-10 rounded-full bg-gray-200 shrink-0 mr-3">
+                      <div className="w-10 h-10 rounded-full text-xl bg-gray-200 shrink-0 mr-3">
                         {inq.item.businessId.ownerName.split(' ')[2]}
                       </div>
                       <div className="overflow-hidden">
@@ -319,9 +320,9 @@ const { user } = useUser()
                       <div className="text-xs opacity-90 mb-1">Inquiry #{selectedInquiry.uiStaticId}</div>
                       <div className="font-bold text-lg leading-tight mb-1">{selectedInquiry.item.title}</div>
                       <div className="font-bold mb-1">Price: $ {selectedInquiry.item.price}</div>
-                      <a href={`/details/${selectedInquiry.item._id}`} className="text-blue-700 font-medium text-sm hover:underline block mb-4">
+                      <Link to={`/details/${selectedInquiry.itemType}/${selectedInquiry.item._id}`} className="text-blue-700 font-medium text-sm hover:underline block mb-4">
                         [Place Order]
-                      </a>
+                      </Link>
                       <div className="text-[10px] text-right opacity-80 italic">
                         Created At: {formatDate(selectedInquiry.createdAt)}
                       </div>

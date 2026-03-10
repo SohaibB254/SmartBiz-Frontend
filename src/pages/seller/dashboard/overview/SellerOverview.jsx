@@ -4,6 +4,8 @@ import SellerSidebar from '../components/SellerSideBar';
 import { useBusiness } from '../../../../context/BusinessContext';
 import { useListing } from '../../../../context/ListingsContext';
 import { useSellerOrder } from '../../../../context/SellerOrdersContext';
+import { Briefcase, CreditCard } from 'lucide-react';
+import SellerTopNav from '../components/SellerTopNav';
 
 const SellerOverview = () => {
   const { businessProfile } = useBusiness();
@@ -35,12 +37,10 @@ const SellerOverview = () => {
 
   return (
     <div className="min-h-screen bg-white font-sans flex flex-col">
-      {/* Top Navbar */}
-      <header className="fixed top-0 w-full z-40 h-18.25 border-b border-gray-200 bg-white px-6 py-4 flex justify-between items-center">
-        <div className="text-2xl font-bold text-[#e29525]">SmartBiz</div>
-      </header>
+    {/* Top Nav */}
+    <SellerTopNav/>
 
-      <div className="flex pt-18.25 flex-1">
+      <div className="flex flex-1">
          {/* Empty div to make align horizontal elements  */}
         <div className='w-64'></div>
         {/* Sidebar */}
@@ -53,11 +53,12 @@ const SellerOverview = () => {
           <div className="flex justify-between items-center mb-8">
             <h1 className="text-3xl font-bold text-black">Overview</h1>
             <div className="flex items-center space-x-6 text-sm font-medium">
-              <div className="flex items-center text-gray-700">
-                <span className="mr-2">💼</span> {businessProfile?.title || 'Business'}
+             <div className="text-gray-700 flex gap-2 items-center">
+                <Briefcase size={18} /> {businessProfile?.title || "Business"}
               </div>
-              <div className="flex items-center text-gray-700">
-                <span className="mr-2">💳</span> Balance: $5672
+              <div className="text-gray-700 flex gap-2 items-center">
+                <CreditCard size={18} />
+                Balance: $5340
               </div>
             </div>
           </div>
@@ -79,7 +80,7 @@ const SellerOverview = () => {
             {/* Card 2: Total Orders */}
             <div className="bg-white border border-gray-200 rounded-xl p-5 flex flex-col shadow-sm">
               <div className="text-sm text-gray-400 font-medium mb-2">Total Orders :</div>
-              <div className="text-5xl font-semibold text-black text-center my-6">{totalOrders}+</div>
+              <div className="text-5xl font-semibold text-black text-center my-6">{totalOrders}</div>
               <div className="mt-auto flex justify-between items-end">
                 <span className="text-xs text-gray-400">Last 30 days</span>
                 <Link to="/seller/orders" className="text-blue-600 text-sm font-medium hover:underline">

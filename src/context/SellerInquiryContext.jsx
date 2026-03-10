@@ -38,7 +38,21 @@ export const SellerInquiryProvider = ({ children }) => {
       setIsLoading(false);
     }
   };
+//  Close inquiry method
 
+  const closeInquiry = async (inquiryId) => {
+    try {
+      await axios.patch(`${API_HOST}/inquiry/${inquiryId}/closed`, {}, {
+        withCredentials: true
+      });
+      // Refresh the list to move the inquiry to the 'Closed' tab
+      await fetchInquiries();
+      return { success: true };
+    } catch (error) {
+      throw error;
+    }
+  };
+//   Send message method
   const sendMessage = async (inquiryId, text) => {
     try {
       await axios.post(`${API_HOST}/inquiry/${inquiryId}/message`, { text }, {
@@ -51,9 +65,8 @@ export const SellerInquiryProvider = ({ children }) => {
       throw error;
     }
   };
-
   return (
-    <SellerInquiryContext.Provider value={{ inquiries, isLoading, fetchInquiries, sendMessage }}>
+    <SellerInquiryContext.Provider value={{ inquiries, isLoading, fetchInquiries, sendMessage, closeInquiry }}>
       {children}
     </SellerInquiryContext.Provider>
   );

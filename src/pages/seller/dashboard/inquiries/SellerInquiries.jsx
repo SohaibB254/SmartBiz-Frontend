@@ -2,9 +2,12 @@ import React, { useState, useEffect, useRef } from 'react';
 import SellerSidebar from '../components/SellerSideBar';
 import { useSellerInquiry } from '../../../../context/SellerInquiryContext';
 import { useBusiness } from '../../../../context/BusinessContext';
+import { Briefcase, CreditCard } from 'lucide-react';
+import SellerTopNav from '../components/SellerTopNav';
 
 const SellerInquiries = () => {
-  const { inquiries, fetchInquiries, sendMessage } = useSellerInquiry();
+  // ADDED: closeInquiry from context
+  const { inquiries, fetchInquiries, sendMessage, closeInquiry } = useSellerInquiry();
   const { businessProfile } = useBusiness();
   const [activeTab, setActiveTab] = useState('Open'); // 'Open', 'Replied', 'Closed'
   const [selectedInquiry, setSelectedInquiry] = useState(null);
@@ -26,13 +29,18 @@ const SellerInquiries = () => {
     return i.status.toLowerCase() === 'open';
   });
 
+  const getTabCount = (tabName) => {
+    if (tabName === 'Replied') return inquiries.filter(i => i.status.toLowerCase() === 'replied').length;
+    if (tabName === 'Closed') return inquiries.filter(i => i.status.toLowerCase() === 'closed').length;
+    return inquiries.filter(i => i.status.toLowerCase() === 'open').length;
+  };
+
   const handleSend = async () => {
     if (!messageInput.trim() || !selectedInquiry) return;
     setIsSending(true);
     try {
       await sendMessage(selectedInquiry._id, messageInput);
 
-      // Optimistic UI update
       const newMessage = { senderId: selectedInquiry.sellerId._id, text: messageInput, createdAt: new Date().toISOString() };
       setSelectedInquiry(prev => ({ ...prev, messages: [...prev.messages, newMessage] }));
       setMessageInput('');
@@ -43,13 +51,24 @@ const SellerInquiries = () => {
     }
   };
 
+  // ADDED: Function to handle closing the inquiry
+  const handleCloseInquiry = async () => {
+    if (!selectedInquiry) return;
+    try {
+      await closeInquiry(selectedInquiry._id);
+      // Deselect the inquiry so the UI forces the user to pick a new one,
+      // or optionally auto-switch to the Closed tab
+      setSelectedInquiry(null);
+    } catch (error) {
+      console.error("Failed to close inquiry", error);
+    }
+  };
+
   return (
     <div className="h-screen bg-white font-sans overflow-hidden">
-      <header className="fixed top-0 w-full z-40 h-18.25 border-b border-gray-200 bg-white px-6 py-4 flex justify-between items-center">
-        <div className="text-2xl font-bold text-[#e29525]">SmartBiz</div>
-      </header>
-
-      <div className="flex pt-18.25 h-full">
+      {/* Top Nav */}
+    <SellerTopNav/>
+      <div className="flex  h-full">
          {/* Empty div to make align horizontal elements  */}
         <div className='w-64'></div>
         <SellerSidebar activeTab="inquiries" />
@@ -58,8 +77,8 @@ const SellerInquiries = () => {
           <div className="px-8 py-6 flex justify-between items-center border-b border-gray-100 shrink-0">
             <h1 className="text-3xl font-bold text-black">Inquiries</h1>
             <div className="flex items-center space-x-6 text-sm font-medium">
-              <div className="text-gray-700">{businessProfile?.businessName || 'Business'}</div>
-              <div className="text-gray-700">Balance: $5672</div>
+               <div className="text-gray-700 flex gap-2 items-center"><Briefcase size={18}/> {businessProfile?.title || 'Business'}</div>
+              <div className="text-gray-700 flex gap-2 items-center"><CreditCard size={18}/> Balance : $5340</div>
             </div>
           </div>
 
@@ -70,6 +89,11 @@ const SellerInquiries = () => {
                 {['Open', 'Replied', 'Closed'].map((tab) => (
                   <button key={tab} onClick={() => { setActiveTab(tab); setSelectedInquiry(null); }} className={`relative px-6 py-1.5 rounded-full text-sm font-medium transition-colors ${activeTab === tab ? 'bg-[#e29525] text-white' : 'bg-gray-200 text-gray-700 hover:bg-gray-300'}`}>
                     {tab}
+                    {getTabCount(tab) > 0 && (
+                      <span className="absolute -top-2 -right-2 bg-red-500 text-white text-[10px] font-bold px-1.5 py-0.5 rounded-full">
+                        {getTabCount(tab) < 10 ? `0${getTabCount(tab)}` : getTabCount(tab)}
+                      </span>
+                    )}
                   </button>
                 ))}
               </div>
@@ -86,6 +110,12 @@ const SellerInquiries = () => {
                     </div>
                   </div>
                 ))}
+
+                {getFilteredInquiries().length === 0 && (
+                  <div className="text-center py-10 text-gray-400 text-sm">
+                    No {activeTab.toLowerCase()} inquiries found.
+                  </div>
+                )}
               </div>
             </div>
 
@@ -99,16 +129,28 @@ const SellerInquiries = () => {
                   </div>
 
                   <div className="flex-1 overflow-y-auto p-8 bg-white flex flex-col">
-                    <div className="bg-[#e29525] rounded-xl p-4 text-white max-w-sm self-center w-full mb-8 shrink-0 shadow-sm">
+                    <div className="bg-[#e29525] rounded-xl p-4 text-white max-w-sm self-center w-full mb-8 shrink-0 shadow-sm relative">
                       <div className="text-xs opacity-90 mb-1">Inquiry #{selectedInquiry.uiStaticId}</div>
                       <div className="font-bold text-lg mb-1">{selectedInquiry.item.title}</div>
                       <div className="font-bold mb-1">Price: $ {selectedInquiry.item.price}</div>
-                      <div className="text-[10px] text-right opacity-80 italic">Created At: {selectedInquiry.createdAt?.split('T')[0]}</div>
+
+                      {/* ADDED: Mark as closed button (Only visible if not already closed) */}
+                      {selectedInquiry.status.toLowerCase() !== 'closed' && (
+                        <button
+                          onClick={handleCloseInquiry}
+                          className="text-blue-700 font-medium text-sm hover:underline block mb-4"
+                        >
+                          [Mark as closed]
+                        </button>
+                      )}
+
+                      <div className={`text-[10px] text-right opacity-80 italic ${selectedInquiry.status.toLowerCase() === 'closed' ? 'mt-4' : ''}`}>
+                        Created At: {selectedInquiry.createdAt?.split('T')[0]}
+                      </div>
                     </div>
 
                     <div className="space-y-6 flex-1 flex flex-col">
                       {selectedInquiry.messages.map((msg, idx) => {
-                        // SELLER Logic: Seller (me) is right-aligned/yellow. Customer is left-aligned/white.
                         const isSeller = msg.senderId === selectedInquiry.sellerId._id;
 
                         return (

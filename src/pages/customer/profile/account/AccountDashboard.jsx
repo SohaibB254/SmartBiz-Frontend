@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import { User, Ticket, Edit } from 'lucide-react';
+import { User, Ticket, Edit, CreditCard } from 'lucide-react';
 import Sidebar from '../../components/Sidebar';
 import { useUser } from '../../../../context/UserContext';
+import TopNav from '../../components/TopNav';
 
 const AccountDashboard = () => {
 const { user } = useUser()
@@ -9,10 +10,7 @@ const { user } = useUser()
   return (
     <div className="min-h-screen flex flex-col bg-white font-sans">
       {/* Top Navbar Placeholder */}
-      <header className="border-b border-gray-200 bg-white px-6 py-4 flex justify-between items-center sticky top-0 z-40">
-        <div className="text-2xl font-bold text-[#e29525]">SmartBiz</div>
-      </header>
-
+    <TopNav/>
       <div className="flex flex-1 overflow-hidden">
          {/* Empty div to make align horizontal elements  */}
         <div className='w-64'></div>
@@ -30,7 +28,7 @@ const { user } = useUser()
                 <User className="w-4 h-4 mr-2" /> {user.name}
               </div>
               <div className="flex items-center text-gray-700">
-                <Ticket className="w-4 h-4 mr-2" /> Balance: $5672
+                <CreditCard className="w-4 h-4 mr-2" /> Balance: $5672
               </div>
             </div>
           </div>
@@ -61,7 +59,7 @@ const { user } = useUser()
 
                 <div>
                   <p className="font-bold text-black">Joined:</p>
-                  <p className="text-gray-400">{user.joinedDate}</p>
+                  <p className="text-gray-400">{user.createdAt ? user.createdAt.split('T')[0]: 'N/A'}</p>
                 </div>
 
                 <div className="pt-4">

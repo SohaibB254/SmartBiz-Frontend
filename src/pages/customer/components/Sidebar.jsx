@@ -52,7 +52,7 @@ const Sidebar = ({ activeTab }) => {
           onClose={closeToast}
         />
       )}
-    <aside className="w-64 border-r border-gray-200 bg-white flex flex-col pt-6 fixed top-18.25 h-[calc(100vh-73px)] overflow-y-auto shrink-0">
+    <aside className="w-64 border-r border-gray-200 bg-white flex flex-col  fixed  h-[calc(100vh-73px)] overflow-y-auto shrink-0">
       <nav className="flex-1 space-y-1">
         {navItems.map((item) => {
           const Icon = item.icon;

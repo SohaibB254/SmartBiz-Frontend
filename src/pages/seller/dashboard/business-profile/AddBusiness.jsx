@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import SellerSidebar from "../components/SellerSideBar";
 import { useBusiness } from "../../../../context/BusinessContext";
 import Toast from "../../../../components/common/Toast";
+import SellerTopNav from "../components/SellerTopNav";
 
 const AddBusiness = () => {
   const navigate = useNavigate();
@@ -78,9 +79,8 @@ const AddBusiness = () => {
 
   return (
     <div className="min-h-screen flex flex-col bg-white font-sans">
-      <header className="border-b border-gray-200 bg-white px-6 py-4 flex justify-between items-center sticky top-0 z-40">
-        <div className="text-2xl font-bold text-[#e29525]">SmartBiz</div>
-      </header>
+   {/* Top Nav */}
+    <SellerTopNav/>
 
       {toastConfig.isVisible && (
         <Toast

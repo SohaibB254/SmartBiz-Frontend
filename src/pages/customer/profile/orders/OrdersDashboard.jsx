@@ -4,6 +4,7 @@ import { Ticket,  User,  ChevronLeft, ChevronRight, ChevronDown, Loader2 } from 
 import OrderDetailsModal from './OrderDetailsModal';
 import Sidebar from '../../components/Sidebar';
 import { useUser } from '../../../../context/UserContext';
+import TopNav from '../../components/TopNav';
 
 const API_HOST = 'http://localhost:3000';
 
@@ -65,11 +66,8 @@ const OrdersDashboard = () => {
 
   return (
     <div className="min-h-screen bg-gray-50 font-sans flex flex-col">
-      {/* Top Navbar Placeholder (Assuming you have this wrapped in App.jsx usually) */}
-      <header className="border-b border-gray-200 bg-white px-6 py-4 flex justify-between items-center sticky top-0 z-40">
-        <div className="text-2xl font-bold text-[#e29525]">SmartBiz</div>
-      </header>
-
+    {/* Top Navbar Placeholder */}
+    <TopNav/>
       <div className="flex flex-1">
          {/* Empty div to make align horizontal elements  */}
         <div className='w-64'></div>
@@ -134,7 +132,7 @@ const OrdersDashboard = () => {
                 )}
               </div>
 
-              <div className="col-span-1 text-right">Amount</div>
+              <div className="col-span-1">Amount</div>
             </div>
 
             {/* Table Body */}
