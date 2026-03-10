@@ -120,7 +120,7 @@ const ItemDetails = () => {
         <div className="text-sm font-medium text-gray-900 mb-12">
           Provided by: <span className="mr-2">{item.businessId.title}</span>
           <Link
-            to={`/business/${item.providerId}`}
+            to={`#`}
             className="text-blue-600 hover:underline font-normal"
           >
             View Business

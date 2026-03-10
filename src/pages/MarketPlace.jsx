@@ -28,7 +28,7 @@ const Marketplace = () => {
 
       // If a search term is active, use the search endpoint with pagination
       if (searchOverride) {
-        endpoint = `${API_HOST}/marketplace/search?title=${searchOverride}&businessName=${searchOverride}&page=${currentPage}&limit=${limit}`;
+        endpoint = `${API_HOST}/marketplace/search?title=${searchOverride}&businessName=${searchOverride}`;
       } else {
         // Otherwise, use the category endpoints with pagination
         endpoint = `${API_HOST}/marketplace/${activeTab}?page=${currentPage}&limit=${limit}`;
@@ -36,25 +36,25 @@ const Marketplace = () => {
 
       const response = await axios.get(endpoint);
 
-      // Extract items and totalCount from your backend response
-      setItems(response.data?.items || response.data?.data || []);
-      console.log(response.data?.items.length);
-
-      setTotalItems(response.data?.totalCount|| 0);
+      // Extract items and totalCount from your backend response.
+      // If success is false, ensure we default to an empty array so the empty state triggers.
+      if (response.data?.success === false) {
+        setItems([]);
+        setTotalItems(0);
+      } else {
+        setItems(response.data?.items || response.data?.data || []);
+        setTotalItems(response.data?.totalCount || 0);
+      }
 
       // Keep state in sync
       setPage(currentPage);
 
     } catch (error) {
       console.error("Failed to fetch marketplace items:", error);
-      // Fallback/Mock Data
-      setItems([
-        { id: 1, type: 'Service', title: 'Web Development', price: 32, description: 'This is a service provided by someone who is good at web development.', providerName: 'James julian' },
-        { id: 2, type: 'Product', title: 'Razer Blade gaming mouse', price: 35, description: 'High performance gaming mouse with RGB.', providerName: 'Sara Jones' },
-        { id: 3, type: 'Service', title: 'Web Development', price: 32, description: 'This is a service provided by someone who is good at web development.', providerName: 'James julian' },
-      ]);
-      setTotalItems(15); // Mock total items to test pagination UI
-      setPage(currentPage);
+      // Removed the mock data here so that if the backend throws a 404 (Not Found)
+      // for an empty category, it correctly triggers the frontend empty state!
+      setItems([]);
+      setTotalItems(0);
     } finally {
       setIsLoading(false);
     }
@@ -127,7 +127,8 @@ const Marketplace = () => {
           </div>
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {items.length > 0 ? (
+            {/* FIXED LOGIC: Changed to && so it properly evaluates empty arrays */}
+            {items && items.length > 0 ? (
               items.map((item, index) => (
                 <ItemCard key={item.id || index} item={item} />
               ))

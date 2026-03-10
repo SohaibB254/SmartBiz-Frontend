@@ -35,7 +35,7 @@ const ItemCard = ({ item }) => {
         </p>
 
         <div className="text-sm text-gray-700 mb-5">
-          Provided by: <a href={`/profile/${item.businessId.title}`} className="text-blue-600 hover:underline">{item.businessId.title}</a>
+          Provided by: <a href='#' className="text-blue-600 hover:underline">{item.businessId.title}</a>
         </div>
 
    <Link

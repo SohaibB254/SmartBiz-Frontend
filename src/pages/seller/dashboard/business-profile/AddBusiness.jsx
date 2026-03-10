@@ -65,7 +65,7 @@ const AddBusiness = () => {
 
       // Give toast time to show, then route to the dashboard
       setTimeout(() => {
-        navigate("/seller/dashboard/business-profile");
+        navigate("/seller/profile");
       }, 2000);
     } catch (error) {
       setToastConfig({

@@ -25,6 +25,7 @@ const Sidebar = ({ activeTab }) => {
         message: response.data.message
       });
       navigate('/')
+      localStorage.removeItem('user')
     } catch (error) {
       setToastConfig({
        isVisible: true,

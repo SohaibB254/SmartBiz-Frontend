@@ -46,7 +46,6 @@ const SellerOrderModal = ({ isOpen, onClose, order, onStatusUpdate }) => {
                 . Order Placed:{" "}
                 {order.date_placed.split("T")[0] || "22-02-2026"}
               </p>
-              <p className="text-gray-600">. Approved: 22-02-2026</p>
               <p className="text-gray-400">
                 . Completed:{" "}
                 {order.status === "completed"
