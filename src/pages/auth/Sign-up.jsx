@@ -43,7 +43,7 @@ const SignUpForm = () => {
       if(response.data.userData.role == 'customer'){
           navigate('/marketplace')
         }else{
-          navigate('/seller/dashboard/overview')
+          navigate('/seller/overview')
         }
     } catch (error) {
       setStatusMessage(error.response?.data?.message || 'Failed to create account. Please try again.');

@@ -203,6 +203,8 @@ const { user } = useUser()
       </header>
 
       <div className="flex flex-1 overflow-hidden">
+         {/* Empty div to make align horizontal elements  */}
+        <div className='w-64'></div>
         {/* Sidebar Component */}
         <Sidebar activeTab="inquiries" />
 
@@ -282,7 +284,7 @@ const { user } = useUser()
                       </div>
                       <div className="overflow-hidden">
                         <h3 className="font-bold text-sm text-gray-900 truncate">
-                          {inq.item.businessId.ownerName}
+                          {inq.item.businessId.title}
                         </h3>
                         <p className="text-gray-400 text-xs truncate">{latestMessage}</p>
                       </div>
@@ -305,7 +307,7 @@ const { user } = useUser()
                   <div className="px-8 py-4 border-b border-gray-100 flex items-center shrink-0">
                     <div className="w-12 h-12 rounded-full bg-gray-200 mr-4 shrink-0"></div>
                     <h2 className="text-lg font-bold text-black italic">
-                      {selectedInquiry.item.businessId.ownerName}
+                      {selectedInquiry.item.businessId.title}
                     </h2>
                   </div>
 

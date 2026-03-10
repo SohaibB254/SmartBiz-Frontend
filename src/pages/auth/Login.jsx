@@ -52,7 +52,7 @@ const navigate = useNavigate()
         if(response.data.userData.role == 'customer'){
           navigate('/marketplace')
         }else{
-          navigate('/seller/dashboard/overview')
+          navigate('/seller/overview')
         }
     } catch (error) {
       console.error('Login error:', error);

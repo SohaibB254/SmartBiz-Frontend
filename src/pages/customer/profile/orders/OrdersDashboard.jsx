@@ -71,6 +71,8 @@ const OrdersDashboard = () => {
       </header>
 
       <div className="flex flex-1">
+         {/* Empty div to make align horizontal elements  */}
+        <div className='w-64'></div>
       <Sidebar activeTab={'orders'}/>
 
         {/* Main Content */}
@@ -150,7 +152,7 @@ const OrdersDashboard = () => {
                     <div className="col-span-1 text-gray-700">{order.date_placed.split('T')[0]}</div>
                     <div className="col-span-1 flex items-center">
                       <span className={`w-2 h-2 rounded-full mr-2 ${getStatusColor(order.status)}`}></span>
-                      <span className={order.status === 'Pending' ? 'text-[#e2c525]' : order.status === 'Completed' ? 'text-green-500' : 'text-red-500'}>
+                      <span className={order.status === 'pending' ? 'text-[#e2c525]' : order.status === 'completed' ? 'text-green-500' : 'text-red-500'}>
                         {order.status}
                       </span>
                     </div>

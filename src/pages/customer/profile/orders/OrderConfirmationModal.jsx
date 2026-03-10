@@ -69,7 +69,7 @@ const OrderConfirmationModal = ({ isOpen, onClose, item }) => {
           </h2>
 
           <div className="flex items-center justify-center space-x-2 text-sm font-bold">
-            <Link to="/orders" className="text-blue-600 hover:underline">
+            <Link to="/profile" className="text-blue-600 hover:underline">
               View Orders
             </Link>
             <span className="text-black text-xs font-normal">or</span>

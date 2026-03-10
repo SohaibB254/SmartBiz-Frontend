@@ -12,7 +12,7 @@ const Navbar = () => {
       </Link>
       <div className="flex items-center space-x-6">
         <Link
-        to={'/seller-dashboard/create-business-profile'}
+        to={'/seller/dashboard/add-business'}
         className="flex items-center hover:underline hover:cursor-pointer space-x-2 text-gray-700 hover:text-black font-medium">
           <span>Add Business</span>
           <Briefcase className="w-5 h-5" />

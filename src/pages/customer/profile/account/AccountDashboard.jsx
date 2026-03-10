@@ -14,6 +14,8 @@ const { user } = useUser()
       </header>
 
       <div className="flex flex-1 overflow-hidden">
+         {/* Empty div to make align horizontal elements  */}
+        <div className='w-64'></div>
         {/* Sidebar Component */}
         <Sidebar activeTab="account" />
 
