@@ -63,6 +63,9 @@ const SellerInquiries = () => {
       console.error("Failed to close inquiry", error);
     }
   };
+  // Random seed genrator for dps in inquiry chat
+  const seed = Math.random().toString(36).substring(7);
+  const avatarUrl = `https://api.dicebear.com/9.x/bottts/svg?seed=${seed}`;
 
   return (
     <div className="h-screen bg-white font-sans overflow-hidden">
@@ -86,7 +89,7 @@ const SellerInquiries = () => {
             {/* Left Pane */}
             <div className="w-1/3 border-r border-gray-200 flex flex-col h-full bg-white">
               <div className="flex space-x-2 p-4">
-                {['Open', 'Replied', 'Closed'].map((tab) => (
+                {['Open','Closed'].map((tab) => (
                   <button key={tab} onClick={() => { setActiveTab(tab); setSelectedInquiry(null); }} className={`relative px-6 py-1.5 rounded-full text-sm font-medium transition-colors ${activeTab === tab ? 'bg-[#e29525] text-white' : 'bg-gray-200 text-gray-700 hover:bg-gray-300'}`}>
                     {tab}
                     {getTabCount(tab) > 0 && (
@@ -103,7 +106,10 @@ const SellerInquiries = () => {
               <div className="flex-1 overflow-y-auto">
                 {getFilteredInquiries().map((inq) => (
                   <div key={inq._id} onClick={() => setSelectedInquiry(inq)} className={`flex items-center px-4 py-4 border-b border-gray-100 cursor-pointer ${selectedInquiry?._id === inq._id ? 'bg-[#fdf3e7]' : 'hover:bg-gray-50'}`}>
-                    <div className="w-10 h-10 rounded-full bg-gray-200 shrink-0 mr-3"></div>
+                    {/* Profile pic */}
+                    <div className="w-10 h-10 rounded-full bg-gray-200 shrink-0 mr-3">
+                      <img src={avatarUrl} alt="" />
+                    </div>
                     <div className="overflow-hidden">
                       <h3 className="font-bold text-sm text-gray-900 truncate">{inq.customerId?.username || 'Customer'}</h3>
                       <p className="text-gray-400 text-xs truncate">{inq.messages[inq.messages.length - 1]?.text || "No messages"}</p>
@@ -124,7 +130,9 @@ const SellerInquiries = () => {
               {selectedInquiry ? (
                 <>
                   <div className="px-8 py-4 border-b border-gray-100 flex items-center shrink-0">
-                    <div className="w-12 h-12 rounded-full bg-gray-200 mr-4"></div>
+                    <div className="w-12 h-12 rounded-full bg-gray-200 mr-4">
+                      <img src={avatarUrl} alt="" />
+                    </div>
                     <h2 className="text-lg font-bold text-black italic">{selectedInquiry.customerId?.username || 'Customer'}</h2>
                   </div>
 

@@ -196,7 +196,8 @@ const { user } = useUser()
     if (tabName === 'Closed') return closedInquiries.length;
     return 0;
   };
-
+ const seed = Math.random().toString(36).substring(7);
+  const avatarUrl = `https://api.dicebear.com/9.x/pixel-art/svg?seed=${seed}`;
   return (
     <div className="h-screen flex flex-col bg-white font-sans overflow-hidden">
       {/* Top Navbar Placeholder */}
@@ -233,7 +234,7 @@ const { user } = useUser()
 
               {/* Tabs */}
               <div className="flex space-x-2 p-4">
-                {['Open', 'Sent', 'Closed'].map((tab) => (
+                {['Open',  'Closed'].map((tab) => (
                   <button
                     key={tab}
                     onClick={() => {
@@ -280,8 +281,8 @@ const { user } = useUser()
                         isSelected ? 'bg-[#fdf3e7]' : 'hover:bg-gray-50'
                       }`}
                     >
-                      <div className="w-10 h-10 rounded-full text-xl bg-gray-200 shrink-0 mr-3">
-                        {inq.item.businessId.ownerName.split(' ')[2]}
+                      <div className="w-10 h-10 rounded-full overflow-hidden text-xl bg-gray-200 shrink-0 mr-3">
+                        <img src={avatarUrl} alt="" />
                       </div>
                       <div className="overflow-hidden">
                         <h3 className="font-bold text-sm text-gray-900 truncate">
@@ -306,7 +307,9 @@ const { user } = useUser()
                 <>
                   {/* Chat Header */}
                   <div className="px-8 py-4 border-b border-gray-100 flex items-center shrink-0">
-                    <div className="w-12 h-12 rounded-full bg-gray-200 mr-4 shrink-0"></div>
+                    <div className="w-12 h-12 rounded-full overflow-hidden bg-gray-200 mr-4 shrink-0">
+                      <img src={avatarUrl} alt="" />
+                    </div>
                     <h2 className="text-lg font-bold text-black italic">
                       {selectedInquiry.item.businessId.title}
                     </h2>

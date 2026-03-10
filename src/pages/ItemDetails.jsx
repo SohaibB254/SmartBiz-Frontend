@@ -118,7 +118,7 @@ const ItemDetails = () => {
 
         {/* Provider Info */}
         <div className="text-sm font-medium text-gray-900 mb-12">
-          Provided by: <span className="mr-2">{item.providerName}</span>
+          Provided by: <span className="mr-2">{item.businessId.title}</span>
           <Link
             to={`/business/${item.providerId}`}
             className="text-blue-600 hover:underline font-normal"
@@ -130,10 +130,12 @@ const ItemDetails = () => {
         {/* Bottom Actions */}
         <div className="flex flex-col sm:flex-row justify-between items-center space-y-4 sm:space-y-0">
           <button
+          disabled={!item.isActive || !item.businessId.isActive}
             onClick={() => setIsModalOpen(true)}
-            className="w-full sm:w-auto bg-[#e29525] hover:bg-[#c9831f] text-white font-medium py-3 px-8 rounded-full transition duration-200"
+            className={`w-full sm:w-auto ${!item.isActive || !item.businessId.isActive ? 'bg-[#8a8a8a] cursor-not-allowed': "bg-[#e29525] cursor-pointer hover:bg-[#c9831f]"}   text-white font-medium py-3 px-8 rounded-full transition duration-200`}
           >
-            {actionButtonText}
+            { !item.isActive || !item.businessId.isActive ? "Item Not Available" :  actionButtonText }
+
           </button>
           {/*  Order confirmation modal */}
           <OrderConfirmationModal

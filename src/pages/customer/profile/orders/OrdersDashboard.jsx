@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { Ticket,  User,  ChevronLeft, ChevronRight, ChevronDown, Loader2 } from 'lucide-react';
+import { Ticket,  User,  ChevronDown, Loader2 } from 'lucide-react';
 import OrderDetailsModal from './OrderDetailsModal';
 import Sidebar from '../../components/Sidebar';
 import { useUser } from '../../../../context/UserContext';
 import TopNav from '../../components/TopNav';
+import Pagination from '../../../../components/common/Pagination';
 
 const API_HOST = 'http://localhost:3000';
 
@@ -12,47 +13,64 @@ const OrdersDashboard = () => {
   const [orders, setOrders] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
 
-
   //user from context
-  const { user } = useUser()
+  const { user } = useUser();
+
   // Filtering and Modal States
   const [statusFilter, setStatusFilter] = useState('All');
   const [isFilterDropdownOpen, setIsFilterDropdownOpen] = useState(false);
   const [selectedOrderId, setSelectedOrderId] = useState(null);
 
-  // Fetch orders when the component mounts or when statusFilter changes
-  useEffect(() => {
-    const fetchOrders = async () => {
-      setIsLoading(true);
-      try {
-        let endpoint = `${API_HOST}/orders/customer/orders`;
+  // Pagination States
+  const [page, setPage] = useState(1);
+  const [totalItems, setTotalItems] = useState(0);
+  const limit = 5;
 
-        if (statusFilter !== 'All') {
-          endpoint = `${API_HOST}/orders/customer/orders?page=1&limit=10&status=${statusFilter.toLowerCase()}`;
-        }
+  // Fetch orders when the component mounts, statusFilter changes, or page changes
+  const fetchOrders = async (currentStatus = statusFilter, currentPage = page) => {
+    setIsLoading(true);
+    try {
+      // Base endpoint with pagination
+      let endpoint = `${API_HOST}/orders/customer/orders?page=${currentPage}&limit=${limit}`;
 
-        const response = await axios.get(endpoint, { withCredentials: true });
-
-        setOrders(response.data?.orders || response.data || []);
-      } catch (error) {
-        console.error("Failed to fetch orders:", error);
-        // Fallback Mock Data
-        setOrders([
-          { customOrderId: '3245', title: 'Web Development', sellerName: 'Mark Felix', date: '23-02-2026', status: 'Pending', amount: 435 },
-          { customOrderId: 'S-9912', title: 'Web Development', sellerName: 'Mark Felix', date: '23-02-2026', status: 'Completed', amount: 435 },
-          { customOrderId: 'P-1023', title: 'Razer Blade Mouse', sellerName: 'Mark Felix', date: '23-02-2026', status: 'Cancelled', amount: 435 },
-        ]);
-      } finally {
-        setIsLoading(false);
+      // Append status if it's not 'All'
+      if (currentStatus !== 'All') {
+        endpoint += `&status=${currentStatus.toLowerCase()}`;
       }
-    };
 
-    fetchOrders();
+      const response = await axios.get(endpoint, { withCredentials: true });
+
+      setOrders(response.data?.orders || response.data?.data || []);
+      // Assume backend sends total items count (adjust this to match your actual backend response!)
+      setTotalItems(response.data?.totalCount || 0);
+      setPage(currentPage);
+    } catch (error) {
+      console.error("Failed to fetch orders:", error);
+      // Fallback Mock Data
+      setOrders([
+        { customOrderId: '3245', item: {title: 'Web Development'}, businessId: {ownerName: 'Mark Felix'}, date_placed: '2026-02-23T00:00', status: 'pending', amount: 435 },
+        { customOrderId: 'S-9912', item: {title: 'Web Development'}, businessId: {ownerName: 'Mark Felix'}, date_placed: '2026-02-23T00:00', status: 'completed', amount: 435 },
+        { customOrderId: 'P-1023', item: {title: 'Razer Blade Mouse'}, businessId: {ownerName: 'Mark Felix'}, date_placed: '2026-02-23T00:00', status: 'cancelled', amount: 435 },
+      ]);
+      setTotalItems(15); // Mock total for testing pagination
+      setPage(currentPage);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  // Trigger fetch when statusFilter changes (always reset to page 1)
+  useEffect(() => {
+    fetchOrders(statusFilter, 1);
   }, [statusFilter]);
 
   const handleStatusSelect = (status) => {
     setStatusFilter(status);
     setIsFilterDropdownOpen(false);
+  };
+
+  const handlePageChange = (newPage) => {
+    fetchOrders(statusFilter, newPage);
   };
 
   const getStatusColor = (status) => {
@@ -66,12 +84,12 @@ const OrdersDashboard = () => {
 
   return (
     <div className="min-h-screen bg-gray-50 font-sans flex flex-col">
-    {/* Top Navbar Placeholder */}
-    <TopNav/>
+      {/* Top Navbar Placeholder */}
+      <TopNav/>
       <div className="flex flex-1">
          {/* Empty div to make align horizontal elements  */}
         <div className='w-64'></div>
-      <Sidebar activeTab={'orders'}/>
+        <Sidebar activeTab={'orders'}/>
 
         {/* Main Content */}
         <main className="flex-1 p-8 bg-white/50">
@@ -87,14 +105,6 @@ const OrdersDashboard = () => {
                 <Ticket className="w-4 h-4 mr-2" /> Balance: $5672
               </div>
             </div>
-          </div>
-
-          {/* Pagination Controls */}
-          <div className="flex justify-end items-center mb-4 text-sm text-gray-700 space-x-2">
-            <span>Page</span>
-            <button className="p-1 hover:bg-gray-100 rounded transition-colors"><ChevronLeft className="w-4 h-4" /></button>
-            <span className="font-medium">01</span>
-            <button className="p-1 hover:bg-gray-100 rounded transition-colors"><ChevronRight className="w-4 h-4" /></button>
           </div>
 
           {/* Data Table */}
@@ -171,6 +181,17 @@ const OrdersDashboard = () => {
                 </div>
               )}
             </div>
+
+            {/* Pagination Component */}
+            <div className="mt-8 px-4">
+              <Pagination
+                currentPage={page}
+                totalItems={totalItems}
+                limit={limit}
+                onPageChange={handlePageChange}
+              />
+            </div>
+
           </div>
         </main>
       </div>

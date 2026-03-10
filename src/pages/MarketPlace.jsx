@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import Navbar from '../components/ui/Navbar';
 import ItemCard from '../components/common/ItemCard';
-import { ChevronLeft, ChevronRight } from 'lucide-react';
+import Pagination from '../components/common/Pagination'; // Make sure this path matches your structure
 
 // Centralized Host Variable
 const API_HOST = 'http://localhost:3000';
@@ -15,52 +15,69 @@ const Marketplace = () => {
   const [activeTab, setActiveTab] = useState('all'); // 'all', 'products', 'services'
   const [searchInput, setSearchInput] = useState('');
 
-  // Fetch data whenever the tab changes or a search is submitted
-  const fetchMarketplaceData = async (searchOverride = '') => {
+  // Pagination States
+  const [page, setPage] = useState(1);
+  const [totalItems, setTotalItems] = useState(0);
+  const limit = 3; // Using 9 since you have a 3-column grid (looks much cleaner!)
+
+  // Fetch data whenever the tab changes, page changes, or search is submitted
+  const fetchMarketplaceData = async (searchOverride = searchInput, currentPage = page) => {
     setIsLoading(true);
     try {
       let endpoint = '';
 
-      // If a search term is active, use the search endpoint
+      // If a search term is active, use the search endpoint with pagination
       if (searchOverride) {
-        // Sending the same query to both title and businessName as requested
-        endpoint = `${API_HOST}/marketplace/search?title=${searchOverride}&businessName=${searchOverride}`;
+        endpoint = `${API_HOST}/marketplace/search?title=${searchOverride}&businessName=${searchOverride}&page=${currentPage}&limit=${limit}`;
       } else {
-        // Otherwise, use the category endpoints
-        endpoint = `${API_HOST}/marketplace/${activeTab}`;
+        // Otherwise, use the category endpoints with pagination
+        endpoint = `${API_HOST}/marketplace/${activeTab}?page=${currentPage}&limit=${limit}`;
       }
 
       const response = await axios.get(endpoint);
 
-      // Assuming the backend returns an array directly, or an object like { data: [...] }
-      setItems(response.data?.items || response.data || []);
+      // Extract items and totalCount from your backend response
+      setItems(response.data?.items || response.data?.data || []);
+      console.log(response.data?.items.length);
+
+      setTotalItems(response.data?.totalCount|| 0);
+
+      // Keep state in sync
+      setPage(currentPage);
 
     } catch (error) {
       console.error("Failed to fetch marketplace items:", error);
-      // Fallback/Mock Data just so you can see the layout if the server is down
+      // Fallback/Mock Data
       setItems([
         { id: 1, type: 'Service', title: 'Web Development', price: 32, description: 'This is a service provided by someone who is good at web development.', providerName: 'James julian' },
         { id: 2, type: 'Product', title: 'Razer Blade gaming mouse', price: 35, description: 'High performance gaming mouse with RGB.', providerName: 'Sara Jones' },
         { id: 3, type: 'Service', title: 'Web Development', price: 32, description: 'This is a service provided by someone who is good at web development.', providerName: 'James julian' },
       ]);
+      setTotalItems(15); // Mock total items to test pagination UI
+      setPage(currentPage);
     } finally {
       setIsLoading(false);
     }
   };
 
-  // Trigger fetch when the tab changes (and clear search to avoid confusion)
+  // Trigger fetch when the tab changes
   useEffect(() => {
     if (!searchInput) {
-      fetchMarketplaceData();
+      // Always reset to page 1 when switching tabs
+      fetchMarketplaceData('', 1);
     }
   }, [activeTab]);
 
   // Handle Search Input Submission
   const handleSearch = (e) => {
     e.preventDefault();
-    // Reset to "All" tab when doing a global search for better UX
-    setActiveTab('all');
-    fetchMarketplaceData(searchInput);
+    setActiveTab('all'); // Reset to "All" tab when doing a global search
+    fetchMarketplaceData(searchInput, 1); // Always reset to page 1 for new searches
+  };
+
+  // Handle Pagination Next/Prev Clicks
+  const handlePageChange = (newPage) => {
+    fetchMarketplaceData(searchInput, newPage);
   };
 
   return (
@@ -122,16 +139,16 @@ const Marketplace = () => {
           </div>
         )}
 
-        {/* Pagination */}
-        <div className="flex items-center justify-center space-x-4 mt-12 text-sm text-gray-700">
-          <span>Page</span>
-          <button className="p-1 hover:bg-gray-200 rounded-full transition-colors">
-            <ChevronLeft className="w-4 h-4" />
-          </button>
-          <span className="font-medium">01</span>
-          <button className="p-1 hover:bg-gray-200 rounded-full transition-colors">
-            <ChevronRight className="w-4 h-4" />
-          </button>
+        {/* Dynamic Pagination Component */}
+        <div className="mt-12 flex justify-center">
+          <div className="w-full max-w-md">
+            <Pagination
+              currentPage={page}
+              totalItems={totalItems}
+              limit={limit}
+              onPageChange={handlePageChange}
+            />
+          </div>
         </div>
       </main>
     </div>

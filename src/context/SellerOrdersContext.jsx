@@ -8,15 +8,23 @@ export const SellerOrderProvider = ({ children }) => {
   const [orders, setOrders] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
 
-  const fetchOrders = async (status = 'all') => {
+  // Pagination States
+  const [page, setPage] = useState(1);
+  const [totalItems, setTotalItems] = useState(0);
+  const limit = 5;
+
+  const fetchOrders = async (status = 'all', currentPage = page) => {
     setIsLoading(true);
     try {
       // Setup for future pagination as requested: page=1&limit=10
-      const response = await axios.get(`${API_HOST}/orders/seller/orders?page=1&limit=10&status=${status.toLowerCase()}`, {
+      const response = await axios.get(`${API_HOST}/orders/seller/orders?page=${currentPage}&limit=${limit}&status=${status.toLowerCase()}`, {
         withCredentials: true
       });
       setOrders(response.data?.orders || response.data || []);
-
+      // Setting total items for pagination
+      setTotalItems(response.data?.totalCount || 0);
+      // Keep state in sync
+      setPage(currentPage);
     } catch (error) {
       console.error("Failed to fetch seller orders:", error);
       // Mock data for UI
@@ -24,6 +32,8 @@ export const SellerOrderProvider = ({ children }) => {
         { customOrderId: '3245', title: 'Web Development', customerName: 'Mark Felix', date: '23-02-2026', status: 'Pending', amount: 435 },
         { customOrderId: 'S-9912', title: 'Web Development', customerName: 'Mark Felix', date: '23-02-2026', status: 'Completed', amount: 435 }
       ]);
+      // ... your mock data ...
+      setTotalItems(15);
     } finally {
       setIsLoading(false);
     }
@@ -44,7 +54,7 @@ export const SellerOrderProvider = ({ children }) => {
   };
 
   return (
-    <SellerOrderContext.Provider value={{ orders, isLoading, fetchOrders, updateOrderStatus }}>
+    <SellerOrderContext.Provider value={{ orders, isLoading, fetchOrders, updateOrderStatus, page, totalItems, limit }}>
       {children}
     </SellerOrderContext.Provider>
   );

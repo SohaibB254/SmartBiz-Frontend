@@ -5,7 +5,7 @@ import { useSellerOrder } from "../../../../context/SellerOrdersContext";
 import { useBusiness } from "../../../../context/BusinessContext";
 import Toast from "../../../../components/common/Toast";
 import SellerTopNav from "../components/SellerTopNav";
-
+import Pagination from "../../../../components/common/Pagination"
 // --- Inner Modal Component ---
 const SellerOrderModal = ({ isOpen, onClose, order, onStatusUpdate }) => {
   const [isProcessing, setIsProcessing] = useState(false);
@@ -146,7 +146,7 @@ const SellerOrderModal = ({ isOpen, onClose, order, onStatusUpdate }) => {
 
 // --- Main Dashboard Component ---
 const SellerOrders = () => {
-  const { orders, isLoading, fetchOrders, updateOrderStatus } =
+  const { orders, isLoading, fetchOrders, updateOrderStatus, page, totalItems, limit } =
     useSellerOrder();
   const { businessProfile } = useBusiness();
   const [statusFilter, setStatusFilter] = useState("All");
@@ -157,10 +157,15 @@ const SellerOrders = () => {
     success: false,
     message: "",
   });
+useEffect(()=>{
+  fetchOrders(statusFilter)
+},[statusFilter])
 
-  useEffect(() => {
-    fetchOrders(statusFilter);
-  }, [statusFilter]);
+    const handlePageChange = (newPage) => {
+    // Pass both the current status filter AND the new page to your fetch function
+    fetchOrders(statusFilter, newPage);
+  };
+
 
   const handleStatusUpdate = async (customOrderId, action) => {
     try {
@@ -214,6 +219,7 @@ const SellerOrders = () => {
                 <CreditCard size={18} />
                 Balance: $5340
               </div>
+
             </div>
           </div>
 
@@ -311,7 +317,14 @@ const SellerOrders = () => {
                   No orders found for this status.
                 </div>
               )}
+
             </div>
+                 <Pagination
+              currentPage={page}
+              totalItems={totalItems}
+              limit={limit}
+              onPageChange={handlePageChange}
+            />
           </div>
         </main>
       </div>
