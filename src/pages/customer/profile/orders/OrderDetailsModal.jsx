@@ -192,10 +192,10 @@ const OrderDetailsModal = ({ isOpen, onClose, customOrderId }) => {
               <p className="mb-1 flex items-center">
                 Payment status:
                 <span
-                  className={`ml-2 px-2 py-0.5 rounded-full ${orderDetail.paymentStatus == 'paid' ? 'bg-green-500': 'bg-[#e2c525]'} text-white text-xs font-medium `}
+                  className={`ml-2 px-2 py-0.5 rounded-full ${orderDetail.paymentStatus == 'Paid' ? 'bg-green-500': 'bg-[#e2c525]'} text-white text-xs font-medium `}
                 >
                   {orderDetail.paymentStatus}
-                  Paid
+                  
                 </span>
               </p>
               <p>
