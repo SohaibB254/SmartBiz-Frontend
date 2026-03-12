@@ -32,11 +32,11 @@ import SellerOverview from "./pages/seller/dashboard/overview/SellerOverview";
 const App = () => {
   return (
     <>
-      <BusinessProvider>
-        <SellerInquiryProvider>
-          <SellerOrderProvider>
-            <ListingProvider>
-              <UserProvider>
+      <UserProvider>
+        <BusinessProvider>
+          <SellerInquiryProvider>
+            <SellerOrderProvider>
+              <ListingProvider>
                 <BrowserRouter>
                   <Routes>
                     <Route element={<RequireNoAuth />}>
@@ -67,8 +67,8 @@ const App = () => {
                       />
                       <Route
                         path="/seller/overview"
-                        element={<SellerOverview/>}
-                        />
+                        element={<SellerOverview />}
+                      />
                       <Route
                         path="/seller/profile"
                         element={<BusinessProfile />}
@@ -93,11 +93,11 @@ const App = () => {
                     </Route>
                   </Routes>
                 </BrowserRouter>
-              </UserProvider>
-            </ListingProvider>
-          </SellerOrderProvider>
-        </SellerInquiryProvider>
-      </BusinessProvider>
+              </ListingProvider>
+            </SellerOrderProvider>
+          </SellerInquiryProvider>
+        </BusinessProvider>
+      </UserProvider>
     </>
   );
 };

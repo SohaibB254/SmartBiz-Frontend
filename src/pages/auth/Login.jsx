@@ -45,7 +45,8 @@ const LoginForm = () => {
         success: true,
         message: response.data.message || "Login successful!",
       });
-
+      console.log(response.data.userData);
+      
       localStorage.setItem("user", JSON.stringify(response.data.userData));
 
       // Redirect based on role

@@ -1,5 +1,6 @@
 import React, { createContext, useState, useEffect, useContext } from 'react';
 import axios from 'axios';
+import { useUser } from './UserContext'; // <-- ADDED: Import your User Context
 
 const API_HOST = 'http://localhost:3000';
 const BusinessContext = createContext();
@@ -8,14 +9,48 @@ export const BusinessProvider = ({ children }) => {
   const [businessProfile, setBusinessProfile] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
 
-  // Load from local storage on initial mount
+  // <-- ADDED: Get the logged in user
+  const { user } = useUser();
+
+  // Load from backend based on user ID, fallback to local storage
   useEffect(() => {
-    const storedBusiness = localStorage.getItem('businessProfile');
-    if (storedBusiness) {
-      setBusinessProfile(JSON.parse(storedBusiness));
-    }
-    setIsLoading(false);
-  }, []);
+    const fetchBusinessProfile = async () => {
+      // If we don't have a user ID yet, we can't fetch their business
+      if (!user || !user._id) {
+        setIsLoading(false);
+        return;
+      }
+
+      setIsLoading(true);
+      try {
+        // Hit your special route using the user's ID
+        const response = await axios.get(`${API_HOST}/business/${user._id}/view`, {
+          withCredentials: true
+        });
+
+        // Assuming backend sends it in a 'business' object
+        const fetchedProfile = response.data?.business || response.data;
+
+        setBusinessProfile(fetchedProfile);
+        localStorage.setItem('businessProfile', JSON.stringify(fetchedProfile));
+      } catch (error) {
+        // If it fails (e.g., 404 because they haven't created one yet),
+        // we check local storage just as a final fallback, otherwise clear it.
+        console.error("No business profile found on backend or fetch failed.");
+        const storedBusiness = localStorage.getItem('businessProfile');
+
+        if (storedBusiness) {
+          setBusinessProfile(JSON.parse(storedBusiness));
+        } else {
+          setBusinessProfile(null);
+        }
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    fetchBusinessProfile();
+  }, [user]); // <-- Re-runs whenever the 'user' state changes/loads
 
   // API Call: Create Profile
   const createProfile = async (formData) => {

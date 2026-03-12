@@ -132,7 +132,7 @@ const OrderConfirmationModal = ({ isOpen, onClose, item }) => {
         {/* Payment Methods */}
         <div className="text-xs font-bold text-black mb-2 flex items-center">
           Payment Method:
-          <label className="inline-flex items-center ml-3 cursor-pointer font-normal">
+       { !isService &&  <label className="inline-flex items-center ml-3 cursor-pointer font-normal">
             <input
               type="checkbox"
               checked={paymentMethod === 'COD'}
@@ -140,7 +140,7 @@ const OrderConfirmationModal = ({ isOpen, onClose, item }) => {
               className="form-checkbox h-3 w-3 text-blue-600 rounded-sm mr-1 accent-blue-600"
             />
             COD
-          </label>
+          </label>}
           <label className="inline-flex items-center ml-3 cursor-pointer font-normal">
             <input
               type="checkbox"

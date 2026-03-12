@@ -5,7 +5,7 @@ import { useSellerOrder } from "../../../../context/SellerOrdersContext";
 import { useBusiness } from "../../../../context/BusinessContext";
 import Toast from "../../../../components/common/Toast";
 import SellerTopNav from "../components/SellerTopNav";
-import Pagination from "../../../../components/common/Pagination"
+import Pagination from "../../../../components/common/Pagination";
 // --- Inner Modal Component ---
 const SellerOrderModal = ({ isOpen, onClose, order, onStatusUpdate }) => {
   const [isProcessing, setIsProcessing] = useState(false);
@@ -56,7 +56,7 @@ const SellerOrderModal = ({ isOpen, onClose, order, onStatusUpdate }) => {
             <div className="mt-3 flex items-center">
               <span className="mr-2">Order status:</span>
               <span
-                className={`px-3 py-0.5 rounded-full text-white text-xs font-medium ${order.status === "pending" ? "bg-[#e2c525]" : order.status === "Completed" ? "bg-green-500" : "bg-red-500"}`}
+                className={`px-3 py-0.5 rounded-full text-white text-xs font-medium ${order.status === "pending" ? "bg-[#e2c525]" : order.status === "completed" ? "bg-green-500" : "bg-red-500"}`}
               >
                 {order.status}
               </span>
@@ -145,8 +145,15 @@ const SellerOrderModal = ({ isOpen, onClose, order, onStatusUpdate }) => {
 
 // --- Main Dashboard Component ---
 const SellerOrders = () => {
-  const { orders, isLoading, fetchOrders, updateOrderStatus, page, totalItems, limit } =
-    useSellerOrder();
+  const {
+    orders,
+    isLoading,
+    fetchOrders,
+    updateOrderStatus,
+    page,
+    totalItems,
+    limit,
+  } = useSellerOrder();
   const { businessProfile } = useBusiness();
   const [statusFilter, setStatusFilter] = useState("All");
   const [isFilterDropdownOpen, setIsFilterDropdownOpen] = useState(false);
@@ -156,15 +163,14 @@ const SellerOrders = () => {
     success: false,
     message: "",
   });
-useEffect(()=>{
-  fetchOrders(statusFilter)
-},[statusFilter])
+  useEffect(() => {
+    fetchOrders(statusFilter);
+  }, [statusFilter]);
 
-    const handlePageChange = (newPage) => {
+  const handlePageChange = (newPage) => {
     // Pass both the current status filter AND the new page to your fetch function
     fetchOrders(statusFilter, newPage);
   };
-
 
   const handleStatusUpdate = async (customOrderId, action) => {
     try {
@@ -192,7 +198,7 @@ useEffect(()=>{
   return (
     <div className="min-h-screen bg-white font-sans">
       {/* Top Nav */}
-    <SellerTopNav/>
+      <SellerTopNav />
 
       {toastConfig.isVisible && (
         <Toast
@@ -218,7 +224,6 @@ useEffect(()=>{
                 <CreditCard size={18} />
                 Balance: $5340
               </div>
-
             </div>
           </div>
 
@@ -311,14 +316,13 @@ useEffect(()=>{
                     </div>
                   </div>
                 ))
-              ): (
+              ) : (
                 <div className="text-center py-12 text-gray-500">
                   No orders found for this status.
                 </div>
               )}
-
             </div>
-                 <Pagination
+            <Pagination
               currentPage={page}
               totalItems={totalItems}
               limit={limit}
