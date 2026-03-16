@@ -2,7 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 
 const ItemCard = ({ item }) => {
-  const API_HOST = "http://localhost:3000"
+  const API_HOST = "https://smartbiz-backend-owih.onrender.com"
   // Determine badge styling based on type
   const isService = item.category?.toLowerCase() === 'service';
   const badgeBg = isService ? 'bg-green-400' : 'bg-gray-300';

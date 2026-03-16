@@ -3,7 +3,7 @@ import { Navigate, Outlet } from 'react-router-dom';
 import axios from 'axios';
 import { Loader2 } from 'lucide-react';
 
-const API_HOST = 'http://localhost:3000';
+const API_HOST = 'https://smartbiz-backend-owih.onrender.com';
 
 // A shared loading component to keep things clean
 const FullScreenLoader = () => (

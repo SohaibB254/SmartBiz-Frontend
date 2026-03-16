@@ -1,7 +1,7 @@
 import React, { createContext, useState, useContext } from 'react';
 import axios from 'axios';
 
-const API_HOST = 'http://localhost:3000';
+const API_HOST = 'https://smartbiz-backend-owih.onrender.com';
 const SellerInquiryContext = createContext();
 
 export const SellerInquiryProvider = ({ children }) => {

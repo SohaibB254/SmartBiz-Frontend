@@ -2,7 +2,7 @@ import React, { createContext, useState, useEffect, useContext } from 'react';
 import axios from 'axios';
 import { useUser } from './UserContext'; // <-- ADDED: Import your User Context
 
-const API_HOST = 'http://localhost:3000';
+const API_HOST = 'https://smartbiz-backend-owih.onrender.com';
 const BusinessContext = createContext();
 
 export const BusinessProvider = ({ children }) => {

@@ -3,7 +3,7 @@ import { X } from 'lucide-react';
 import axios from 'axios';
 import Toast from '../../../../components/common/Toast';
 
-const API_HOST = 'http://localhost:3000';
+const API_HOST = 'https://smartbiz-backend-owih.onrender.com';
 
 const InquiryModal = ({ isOpen, onClose, item }) => {
   const [inquiryText, setInquiryText] = useState('');

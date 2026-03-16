@@ -5,7 +5,7 @@ import ItemCard from '../components/common/ItemCard';
 import Pagination from '../components/common/Pagination'; // Make sure this path matches your structure
 
 // Centralized Host Variable
-const API_HOST = 'http://localhost:3000';
+const API_HOST = 'https://smartbiz-backend-owih.onrender.com';
 
 const Marketplace = () => {
   const [items, setItems] = useState([]);

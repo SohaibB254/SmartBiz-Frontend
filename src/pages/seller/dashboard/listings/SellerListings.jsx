@@ -6,7 +6,7 @@ import { useBusiness } from '../../../../context/BusinessContext';
 import Toast from '../../../../components/common/Toast';
 import SellerTopNav from '../components/SellerTopNav';
 
-const API_HOST = 'http://localhost:3000'
+const API_HOST = 'https://smartbiz-backend-owih.onrender.com'
 // A specialized card just for the seller dashboard so clicking 'View Details' goes to the edit page
 const SellerItemCard = ({ item }) => {
   const imgUrl = `${API_HOST}/${item.image}` || "https://placehold.co/600x400/e2e8f0/64748b?text=Illustration";

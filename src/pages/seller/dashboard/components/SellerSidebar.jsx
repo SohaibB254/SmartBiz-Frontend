@@ -5,7 +5,7 @@ import { useBusiness } from '../../../../context/BusinessContext';
 import Toast from '../../../../components/common/Toast';
 import axios from 'axios';
 
-const API_HOST = 'http://localhost:3000'
+const API_HOST = 'https://smartbiz-backend-owih.onrender.com/'
 
 const SellerSidebar = ({ activeTab, isLocked = false }) => {
   const { businessProfile } = useBusiness();

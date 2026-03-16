@@ -2,7 +2,7 @@ import React from "react";
 import axios from "axios";
 
 // Set the base URL so you don't have to type it every time
-axios.defaults.baseURL = "http://localhost:3000";
+axios.defaults.baseURL = "https://smartbiz-backend-owih.onrender.com";
 // MUST BE TRUE to send/receive cookies
 axios.defaults.withCredentials = true;
 import LoginForm from "./pages/auth/Login";

@@ -6,7 +6,7 @@ import { useListing } from "../../../../context/ListingsContext";
 import Toast from "../../../../components/common/Toast";
 import SellerTopNav from "../components/SellerTopNav";
 
-const API_HOST = "http://localhost:3000";
+const API_HOST = "https://smartbiz-backend-owih.onrender.com";
 
 const ManageListing = () => {
   const { id } = useParams();

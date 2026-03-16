@@ -35,7 +35,7 @@ const LoginForm = () => {
 
     try {
       const response = await axios.post(
-        "http://localhost:3000/auth/login",
+        "https://smartbiz-backend-owih.onrender.com/auth/login",
         formData,
       );
 
@@ -46,7 +46,7 @@ const LoginForm = () => {
         message: response.data.message || "Login successful!",
       });
       console.log(response.data.userData);
-      
+
       localStorage.setItem("user", JSON.stringify(response.data.userData));
 
       // Redirect based on role
