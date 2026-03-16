@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import SellerSidebar from '../components/SellerSideBar';
+import SellerSidebar from '../components/SellerSidebar.jsx';
 import { useBusiness } from '../../../../context/BusinessContext';
 import { useListing } from '../../../../context/ListingsContext';
 import { useSellerOrder } from '../../../../context/SellerOrdersContext';

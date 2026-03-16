@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import SellerSidebar from '../components/SellerSideBar';
+import SellerSidebar from '../components/SellerSidebar.jsx';
 import { useSellerInquiry } from '../../../../context/SellerInquiryContext';
 import { useBusiness } from '../../../../context/BusinessContext';
 import { Briefcase, CreditCard } from 'lucide-react';

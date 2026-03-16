@@ -1,6 +1,6 @@
 import React, { useState, useRef } from "react";
 import { useNavigate } from "react-router-dom";
-import SellerSidebar from "../components/SellerSideBar";
+import SellerSidebar from "../components/SellerSidebar.jsx";
 import { useBusiness } from "../../../../context/BusinessContext";
 import Toast from "../../../../components/common/Toast";
 import SellerTopNav from "../components/SellerTopNav";

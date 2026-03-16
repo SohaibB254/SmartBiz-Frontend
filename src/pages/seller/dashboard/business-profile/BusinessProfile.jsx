@@ -1,6 +1,6 @@
 import React, { useState, useRef } from 'react';
 import { Edit } from 'lucide-react';
-import SellerSidebar from '../components/SellerSideBar';
+import SellerSidebar from '../components/SellerSidebar.jsx';
 import { useBusiness } from '../../../../context/BusinessContext';
 import Toast from '../../../../components/common/Toast';
 import { useListing } from '../../../../context/ListingsContext';

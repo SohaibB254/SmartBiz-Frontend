@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Briefcase, ChevronDown, CreditCard, Loader2, X } from "lucide-react";
-import SellerSidebar from "../components/SellerSideBar";
+import SellerSidebar from "../components/SellerSidebar.jsx";
 import { useSellerOrder } from "../../../../context/SellerOrdersContext";
 import { useBusiness } from "../../../../context/BusinessContext";
 import Toast from "../../../../components/common/Toast";

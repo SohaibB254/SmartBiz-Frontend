@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { Edit } from "lucide-react";
-import SellerSidebar from "../components/SellerSideBar";
+import SellerSidebar from "../components/SellerSidebar.jsx";
 import { useListing } from "../../../../context/ListingsContext";
 import Toast from "../../../../components/common/Toast";
 import SellerTopNav from "../components/SellerTopNav";
