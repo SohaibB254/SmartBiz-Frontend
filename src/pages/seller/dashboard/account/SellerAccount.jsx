@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { Briefcase, CreditCard, Edit } from 'lucide-react';
-import SellerSidebar from '../components/SellerSideBar';
+import SellerSidebar from '../components/SellerSidebar.jsx'
 import { useUser } from '../../../../context/UserContext';
 import { useBusiness } from '../../../../context/BusinessContext';
 import SellerTopNav from '../components/SellerTopNav';
