@@ -38,6 +38,7 @@ const LoginForm = () => {
       const response = await axios.post(
         `${API_HOST}/auth/login`,
         formData,
+      {withCredentials: true}
       );
 
       // Success path

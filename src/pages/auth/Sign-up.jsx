@@ -37,7 +37,7 @@ const SignUpForm = () => {
     setIsLoading(true);
 
     try {
-      const response = await axios.post(`${API_HOST}/auth/sign-up`, formData);
+      const response = await axios.post(`${API_HOST}/auth/sign-up`, formData, {withCredentials: true});
 
       // Success path
       setToastConfig({
