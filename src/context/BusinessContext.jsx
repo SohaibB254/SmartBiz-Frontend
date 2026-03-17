@@ -1,8 +1,8 @@
 import React, { createContext, useState, useEffect, useContext } from 'react';
 import axios from 'axios';
 import { useUser } from './UserContext'; // <-- ADDED: Import your User Context
+import API_HOST from '../config';
 
-const API_HOST = 'https://smartbiz-backend-owih.onrender.com';
 const BusinessContext = createContext();
 
 export const BusinessProvider = ({ children }) => {
@@ -27,7 +27,6 @@ export const BusinessProvider = ({ children }) => {
         const response = await axios.get(`${API_HOST}/business/${user._id}/view`, {
           withCredentials: true
         });
-
         // Assuming backend sends it in a 'business' object
         const fetchedProfile = response.data?.business || response.data;
 
@@ -38,6 +37,7 @@ export const BusinessProvider = ({ children }) => {
         // we check local storage just as a final fallback, otherwise clear it.
         console.error("No business profile found on backend or fetch failed.");
         const storedBusiness = localStorage.getItem('businessProfile');
+
 
         if (storedBusiness) {
           setBusinessProfile(JSON.parse(storedBusiness));

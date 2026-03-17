@@ -3,6 +3,7 @@ import axios from "axios";
 import { Mail, Lock, Eye, EyeOff } from "lucide-react";
 import Toast from "../../components/common/Toast";
 import { useNavigate } from "react-router-dom";
+import API_HOST from "../../config";
 
 const LoginForm = () => {
   const navigate = useNavigate();
@@ -35,7 +36,7 @@ const LoginForm = () => {
 
     try {
       const response = await axios.post(
-        "https://smartbiz-backend-owih.onrender.com/auth/login",
+        `${API_HOST}/auth/login`,
         formData,
       );
 
@@ -45,7 +46,6 @@ const LoginForm = () => {
         success: true,
         message: response.data.message || "Login successful!",
       });
-      console.log(response.data.userData);
 
       localStorage.setItem("user", JSON.stringify(response.data.userData));
 

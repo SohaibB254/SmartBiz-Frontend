@@ -2,8 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { Navigate, Outlet } from 'react-router-dom';
 import axios from 'axios';
 import { Loader2 } from 'lucide-react';
+import API_HOST from '../config';
 
-const API_HOST = 'https://smartbiz-backend-owih.onrender.com';
 
 // A shared loading component to keep things clean
 const FullScreenLoader = () => (
@@ -22,8 +22,9 @@ export const RequireAuth = () => {
     const checkAuth = async () => {
       try {
         // Send a request to your backend to verify the httpOnly cookie
-        await axios.get(`${API_HOST}/auth/verify`, { withCredentials: true });
+        const response = await axios.get(`${API_HOST}/auth/verify`, { withCredentials: true });
         setAuthStatus('authenticated');
+
       } catch (error) {
         // If the backend returns a 401 Unauthorized, the cookie is missing or invalid
         setAuthStatus('unauthenticated');
@@ -31,6 +32,7 @@ export const RequireAuth = () => {
     };
 
     checkAuth();
+
   }, []);
 
   if (authStatus === 'checking') {
@@ -55,13 +57,13 @@ export const RequireNoAuth = () => {
   useEffect(() => {
     const checkAuth = async () => {
       try {
-        await axios.get(`${API_HOST}/auth/verify`, { withCredentials: true });
+        const response = await axios.get(`${API_HOST}/auth/verify`, { withCredentials: true });
         setAuthStatus('authenticated');
       } catch (error) {
         setAuthStatus('unauthenticated');
+
       }
     };
-
     checkAuth();
   }, []);
 

@@ -6,8 +6,8 @@ import Sidebar from '../../components/Sidebar';
 import { useUser } from '../../../../context/UserContext';
 import TopNav from '../../components/TopNav';
 import Pagination from '../../../../components/common/Pagination';
+import API_HOST from '../../../../config';
 
-const API_HOST = 'http://localhost:3000';
 
 const OrdersDashboard = () => {
   const [orders, setOrders] = useState([]);

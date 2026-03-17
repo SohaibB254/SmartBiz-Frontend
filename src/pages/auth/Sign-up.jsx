@@ -3,8 +3,8 @@ import axios from 'axios';
 import { User, Mail, Lock, Eye, EyeOff } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import Toast from '../../components/common/Toast';
+import API_HOST from '../../config';
 
-const API_HOST = 'https://smartbiz-backend-owih.onrender.com';
 
 const SignUpForm = () => {
   const navigate = useNavigate();

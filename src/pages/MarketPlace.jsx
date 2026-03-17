@@ -3,9 +3,8 @@ import axios from 'axios';
 import Navbar from '../components/ui/Navbar';
 import ItemCard from '../components/common/ItemCard';
 import Pagination from '../components/common/Pagination'; // Make sure this path matches your structure
+import API_HOST from '../config';  // Centralized Host Variable
 
-// Centralized Host Variable
-const API_HOST = 'https://smartbiz-backend-owih.onrender.com';
 
 const Marketplace = () => {
   const [items, setItems] = useState([]);

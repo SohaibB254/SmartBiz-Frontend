@@ -4,8 +4,8 @@ import axios from "axios";
 import Navbar from "../components/ui/Navbar";
 import OrderConfirmationModal from "./customer/profile/orders/OrderConfirmationModal";
 import InquiryModal from "./customer/profile/inquiries/InquiryModal";
+import API_HOST from "../config";
 
-const API_HOST = "https://smartbiz-backend-owih.onrender.com";
 
 const ItemDetails = () => {
   // for confirmation modal

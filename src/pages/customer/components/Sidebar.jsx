@@ -3,8 +3,8 @@ import { Link, useNavigate } from 'react-router-dom';
 import { Ticket, MessageSquare, User, LogOut } from 'lucide-react';
 import axios from 'axios';
 import Toast from '../../../components/common/Toast';
+import API_HOST from '../../../config';
 
-const API_HOST = 'https://smartbiz-backend-owih.onrender.com'
 
 const Sidebar = ({ activeTab }) => {
 

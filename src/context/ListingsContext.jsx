@@ -1,8 +1,8 @@
 import React, { createContext, useState, useContext, useCallback } from 'react';
 import axios from 'axios';
 import { useBusiness } from './BusinessContext';
+import API_HOST from '../config';
 
-const API_HOST = 'https://smartbiz-backend-owih.onrender.com';
 const ListingContext = createContext();
 
 export const ListingProvider = ({ children }) => {

@@ -5,8 +5,8 @@ import Sidebar from "../../components/Sidebar";
 import { useUser } from "../../../../context/UserContext";
 import { Link } from "react-router-dom";
 import TopNav from "../../components/TopNav";
+import API_HOST from "../../../../config";
 
-const API_HOST = "https://smartbiz-backend-owih.onrender.com";
 
 const InquiriesDashboard = () => {
   const [inquiries, setInquiries] = useState([]);

@@ -3,8 +3,8 @@ import axios from "axios";
 import { X, Loader2 } from "lucide-react";
 import RedConfirmationModal from "../../../../components/common/RedConfirmationModal";
 import Toast from "../../../../components/common/Toast";
+import API_HOST from "../../../../config";
 
-const API_HOST = "http://localhost:3000";
 
 const OrderDetailsModal = ({ isOpen, onClose, customOrderId }) => {
   // For canceallation modal
@@ -195,7 +195,7 @@ const OrderDetailsModal = ({ isOpen, onClose, customOrderId }) => {
                   className={`ml-2 px-2 py-0.5 rounded-full ${orderDetail.paymentStatus == 'Paid' ? 'bg-green-500': 'bg-[#e2c525]'} text-white text-xs font-medium `}
                 >
                   {orderDetail.paymentStatus}
-                  
+
                 </span>
               </p>
               <p>

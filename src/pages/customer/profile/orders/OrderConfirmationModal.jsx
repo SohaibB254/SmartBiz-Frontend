@@ -2,8 +2,8 @@ import React, { useState } from 'react';
 import { X } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
+import API_HOST from '../../../../config';
 
-const API_HOST = 'http://localhost:3000';
 
 const OrderConfirmationModal = ({ isOpen, onClose, item }) => {
   const [step, setStep] = useState('form'); // 'form' or 'success'

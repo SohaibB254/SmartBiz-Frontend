@@ -1,10 +1,5 @@
 import React from "react";
 import axios from "axios";
-
-// Set the base URL so you don't have to type it every time
-axios.defaults.baseURL = "https://smartbiz-backend-owih.onrender.com";
-// MUST BE TRUE to send/receive cookies
-axios.defaults.withCredentials = true;
 import LoginForm from "./pages/auth/Login";
 import SignUpForm from "./pages/auth/Sign-up";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
@@ -28,6 +23,11 @@ import SellerAccount from "./pages/seller/dashboard/account/SellerAccount";
 import { SellerOrderProvider } from "./context/SellerOrdersContext";
 import { SellerInquiryProvider } from "./context/SellerInquiryContext";
 import SellerOverview from "./pages/seller/dashboard/overview/SellerOverview";
+import API_HOST from "./config";
+// Set the base URL so you don't have to type it every time
+axios.defaults.baseURL = API_HOST;
+// MUST BE TRUE to send/receive cookies
+axios.defaults.withCredentials = true;
 
 const App = () => {
   return (
