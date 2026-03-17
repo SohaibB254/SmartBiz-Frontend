@@ -4,7 +4,7 @@ import axios from 'axios';
 import { Loader2 } from 'lucide-react';
 import API_HOST from '../config';
 
-
+const user = localStorage.getItem('user');
 // A shared loading component to keep things clean
 const FullScreenLoader = () => (
   <div className="min-h-screen flex items-center justify-center bg-gray-50">
@@ -25,9 +25,12 @@ export const RequireAuth = () => {
         const response = await axios.get(`${API_HOST}/auth/verify`, { withCredentials: true });
         setAuthStatus('authenticated');
 
+        console.log(response.data.message)
+
       } catch (error) {
         // If the backend returns a 401 Unauthorized, the cookie is missing or invalid
         setAuthStatus('unauthenticated');
+        console.log(error.response?.data?.message)
       }
     };
 
@@ -59,8 +62,12 @@ export const RequireNoAuth = () => {
       try {
         const response = await axios.get(`${API_HOST}/auth/verify`, { withCredentials: true });
         setAuthStatus('authenticated');
+        console.log(response.data.message)
+
       } catch (error) {
         setAuthStatus('unauthenticated');
+        console.log(error.response?.data?.message)
+
 
       }
     };
@@ -73,7 +80,8 @@ export const RequireNoAuth = () => {
 
   // If a valid cookie exists, redirect straight to the marketplace
   if (authStatus === 'authenticated') {
-    return <Navigate to="/marketplace" replace />;
+    return (!user.role === "seller" ?<Navigate to="/marketplace" replace /> : <Navigate to="/seller/overview" replace /> ) ;
+;
   }
 
   // If no valid cookie, allow them to see the login page
